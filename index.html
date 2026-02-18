@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Q3 Skills Test</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --bg-main: #0b0f14;
+  --bg-panel: #121821;
+  --bg-card: #161d29;
+  --accent-main: #fbbf24;
+  --accent-alt: #34d399;
+  --accent-soft: #f59e0b;
+  --text-main: #e5e7eb;
+  --text-muted: #9ca3af;
+  --border-soft: #263041;
+  --danger: #ef4444;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  margin: 0;
+  font-family: 'Poppins', sans-serif;
+  background: radial-gradient(circle at top, #0f172a, #020617);
+  color: var(--text-main);
+  overflow-x:hidden;
+  position: relative;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(circle, rgba(52,211,153,0.08), transparent 70%);
+  top: -200px;
+  right: -200px;
+  z-index: -1;
+}
+
+.warning{
+  color:var(--danger);
+  font-size:13px;
+  margin-top:5px;
+  display:none;
+}
+
+input.error, select.error{
+  border:1px solid var(--danger);
+}
+
+#loader {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  background: #020617;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  z-index: 9999;
+}
+
+.bike {
+  font-size: 50px;
+  animation: ride 2s linear infinite;
+}
+
+@keyframes ride {
+  0% { transform: translateX(-150px); }
+  50% { transform: translateX(150px); }
+  100% { transform: translateX(-150px); }
+}
+
+nav {
+  background: linear-gradient(90deg, #020617, #0b1220);
+  padding: 15px 30px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid var(--border-soft);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.logo {
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--accent-main);
+}
+
+.clock {
+  color: var(--accent-alt);
+  font-weight: bold;
+  margin-left: 20px;
+}
+
+nav ul {
+  list-style: none;
+  display: flex;
+  gap: 20px;
+}
+
+nav ul li a {
+  color: var(--text-main);
+  text-decoration: none;
+  font-weight: 600;
+  transition: 0.3s;
+}
+
+nav ul li a:hover {
+  color: var(--accent-main);
+}
+
+.book-btn {
+  background: linear-gradient(135deg, var(--accent-main), var(--accent-soft));
+  color: #020617;
+  padding: 8px 16px;
+  border-radius: 999px;
+  font-weight: bold;
+  text-decoration: none;
+  transition: 0.3s;
+}
+
+.book-btn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 20px rgba(251,191,36,0.5);
+}
+
+section {
+  padding: 40px;
+  max-width: 1000px;
+  margin: auto;
+}
+
+.hero {
+  background: rgba(22, 29, 41, 0.7);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255,255,255,0.05);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+  padding: 40px;
+  border-radius: 16px;
+  display: flex;
+  gap: 30px;
+  flex-wrap: wrap;
+}
+
+.info-card {
+  background: rgba(22, 29, 41, 0.7);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255,255,255,0.05);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+  transition: 0.3s ease;
+}
+
+.info-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 15px 35px rgba(0,0,0,0.6);
+}
+
+label {
+  margin-top: 18px;
+  display: block;
+  font-weight: 600;
+  color: var(--text-muted);
+}
+
+select, input {
+  width: 100%;
+  padding: 12px;
+  margin-top: 8px;
+  background: var(--bg-panel);
+  color: var(--text-main);
+  border: 1px solid var(--border-soft);
+  border-radius: 10px;
+  transition: 0.3s;
+}
+
+select:focus, input:focus {
+  border: 1px solid var(--accent-alt);
+  box-shadow: 0 0 10px rgba(52,211,153,0.4);
+  outline: none;
+}
+
+button {
+  width: 100%;
+  padding: 14px;
+  margin-top: 20px;
+  background: linear-gradient(135deg, var(--accent-alt), #22c55e);
+  color: #020617;
+  font-weight: 800;
+  border: none;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+button:hover {
+  transform: scale(1.03);
+  box-shadow: 0 0 20px rgba(52, 211, 153, 0.6);
+}
+
+#result, #confirmation {
+  margin-top: 25px;
+  padding: 22px;
+  background: rgba(22, 29, 41, 0.7);
+  backdrop-filter: blur(10px);
+  border-left: 4px solid var(--accent-alt);
+  border-radius: 12px;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: 0.4s;
+  font-size: 18px;
+  font-weight: 600;
+  text-align: center;
+}
+
+img {
+  border-radius: 14px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.5);
+  transition: 0.3s;
+}
+
+img:hover {
+  transform: scale(1.02);
+}
+
+footer {
+  background: linear-gradient(90deg, #020617, #0b1220);
+  border-top: 1px solid var(--border-soft);
+  padding: 20px;
+  text-align: center;
+  color: var(--text-muted);
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator,
+input[type="time"]::-webkit-calendar-picker-indicator {
+  filter: invert(1);
+  cursor: pointer;
+}
+
+.landing {
+  height: 90vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+
+  background-image: url('https://img.freepik.com/premium-photo/commercial-motorcycle-taxi-driver-taking-his-passenger_8595-727.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+
+  position: relative;
+}
+
+.landing::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, rgba(2,6,23,0.6), rgba(2,6,23,0.6));
+}
+
+.landing-content {
+  position: relative;
+  z-index: 2;
+  max-width: 800px;
+  padding: 20px;
+}
+
+.landing h1 {
+  font-size: 48px;
+  margin-bottom: 20px;
+}
+
+.brand-text {
+  background: linear-gradient(90deg, #34d399 50%, #fbbf24 50%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-weight: 800;
+}
+
+.landing p {
+  font-size: 18px;
+  line-height: 1.6;
+  margin-bottom: 30px;
+}
+
+.start-btn {
+  background: linear-gradient(135deg, var(--accent-alt), #22c55e);
+  padding: 14px 30px;
+  border-radius: 999px;
+  text-decoration: none;
+  font-weight: bold;
+  color: #020617;
+  transition: 0.3s;
+}
+
+.start-btn:hover {
+  transform: scale(1.05);
+}
+
+</style>
+</head>
+
+<body>
+
+<div id="loader">
+  <div class="bike">🏍️</div>
+  <p>Starting Motorcycle Ride System...</p>
+</div>
+
+<nav>
+  <div style="display:flex;align-items:center;">
+    <div class="logo">🏍️ GoMotorcycle</div>
+    <div class="clock" id="clock"></div>
+  </div>
+  <ul>
+    <li><a href="#home">Home</a></li>
+    <li><a href="#fare">Fare Matrix</a></li>
+    <li><a href="#schedule">Schedule</a></li>
+  </ul>
+  <a href="#fare" class="book-btn">Book Ride</a>
+</nav>
+
+<section style="
+  padding:180px 40px 100px 40px; /* pushes text downward */
+  text-align:center;
+  background: 
+    linear-gradient(rgba(2,6,23,0.4), rgba(2,6,23,0.4)),
+    url('https://img.freepik.com/premium-photo/commercial-motorcycle-taxi-driver-taking-his-passenger_8595-727.jpg');
+  background-size: cover;
+  background-position: center 30%; /* shifts image focus slightly down */
+  background-repeat: no-repeat;
+">
+
+
+  <h1 style="font-size:42px;margin-bottom:20px;">
+ Ride smarter with
+  <span style="
+    background: linear-gradient(90deg, #34d399 50%, #fbbf24 50%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-weight:800;
+  ">
+    GoMotorcycle
+  </span>
+</h1>
+
+  <p style="color:var(--text-main);font-size:18px;max-width:800px;margin:auto;line-height:1.6;">
+    Experience a faster, smarter, and more convenient way to travel along 
+    North Avenue to Taft Avenue. Calculate fares instantly, book rides easily
+    in just a few clicks.
+  </p>
+
+  <p style="margin-top:30px;">
+    <a href="#fare" 
+       style="background:linear-gradient(135deg,var(--accent-alt),#22c55e);
+              padding:14px 30px;
+              border-radius:999px;
+              text-decoration:none;
+              font-weight:bold;
+              color:#020617;
+              transition:0.3s;">
+      Get Started
+    </a>
+  </p>
+
+</section>
+
+    </a>
+  </p>
+</section>
+
+<section id="home">
+  <div class="hero">
+    <div style="flex:1;">
+      <h1 style="color:var(--accent-main)">MRT Line 3</h1>
+      <p>North Avenue – Taft Avenue</p>
+      <p><b>Fare Range:</b> ₱13 – ₱28</p>
+      <p><b>Discount:</b> 20%</p>
+    </div>
+    <div style="flex:1;text-align:center;">
+      <img src="https://www.sumitomocorp.com/asia-oceania/-/media/Images/hq/news/topics/2023/20230531/04-2_en.png?h=515&iar=0&w=915"
+      style="max-width:100%;border-radius:12px;">
+    </div>
+  </div>
+</section>
+
+<br><br>
+
+
+<div style="display:flex;gap:25px;flex-wrap:wrap;justify-content:center;padding:0 60px;">
+
+<div class="info-card" style="flex:0 0 320px;padding:22px;border-radius:12px;">
+
+    <h3 style="color:var(--accent-main)">How to Book</h3>
+  <img src="https://static.vecteezy.com/system/resources/previews/004/596/421/non_2x/riding-motorcycle-with-gps-map-smartphone-on-dashboard-from-pov-view-courier-delivery-service-online-transportation-rider-concept-in-cartoon-illustration-vector.jpg"
+       style="width:100%;border-radius:10px;margin:10px 0;">
+    <p>1. Select your starting and destination station.</p>
+    <p>2. Choose passenger type (Regular or Discount).</p>
+    <p>3. Click Calculate Fare.</p>
+    <p>4. Fill in passenger details.</p>
+    <p>5. Confirm your booking.</p>
+  </div>
+
+<div class="info-card" style="flex:0 0 320px;padding:22px;border-radius:12px;">
+
+    <h3 style="color:var(--accent-main)">Passenger Reminders</h3>
+      <img src="https://www.wikihow.com/images/2/24/Ride-on-the-Back-of-a-Motorcycle-Step-20-Version-3.jpg"
+       style="width:100%;border-radius:10px;margin:10px 0;">
+    <p>• Arrive at least 15 minutes early.</p>
+    <p>• Prepare valid ID for discount passengers.</p>
+    <p>• Follow motorcycle safety rules at all times.</p>
+    <p>• Keep your belongings secure.</p>
+  </div>
+
+<div class="info-card" style="flex:0 0 320px;padding:22px;border-radius:12px;">
+
+    <h3 style="color:var(--accent-main)">Operating Schedule</h3>
+     <img src="https://thumbs.dreamstime.com/b/isometric-business-people-scheduling-operation-desk-calendar-flat-d-planning-drawing-circle-mark-operations-97395140.jpg"
+       style="width:100%;border-radius:10px;margin:10px 0;">
+    <p><b>First Trip:</b> 4:30 AM</p>
+    <p><b>Last Trip:</b> 10:30 PM</p>
+    <p>Available Daily</p>
+  </div>
+
+</div>
+
+<section id="fare">
+  <h2 style="color:var(--accent-main);">Fare Calculator & Booking</h2>
+
+
+  <label>From Station</label>
+  <select id="fromStation"></select>
+
+  <label>To Station</label>
+  <select id="toStation"></select>
+
+  <label>Passenger Type</label>
+  <select id="passType">
+    <option value="regular">Regular</option>
+    <option value="discount">Senior / PWD / Student</option>
+  </select>
+
+  <div class="warning" id="stationWarn">Stations must be different.</div>
+
+  <button onclick="computeFare()">Calculate Fare</button>
+  <div id="result"></div>
+
+  <div id="bookingSection" style="display:none;">
+    <h3 style="color:var(--accent-main);">Passenger Details</h3>
+
+    <label>Full Name</label>
+    <input type="text" id="fullName">
+    <div class="warning" id="nameWarn">Name must be at least 3 characters.</div>
+
+    <label>Age</label>
+    <input type="number" id="age">
+    <div class="warning" id="ageWarn">Age must be between 13 and 120.</div>
+
+    <label>Contact Number</label>
+    <input type="text" id="contact">
+    <div class="warning" id="contactWarn">Enter valid 11-digit number (09XXXXXXXXX).</div>
+
+    <label>Email</label>
+    <input type="email" id="email">
+    <div class="warning" id="emailWarn">Enter valid email address.</div>
+
+    <label>Travel Date</label>
+    <input type="date" id="travelDate">
+    <div class="warning" id="dateWarn">Travel date cannot be in the past.</div>
+
+    <label>Preferred Time</label>
+    <input type="time" id="travelTime">
+    <div class="warning" id="timeWarn">Please select travel time.</div>
+
+    <button onclick="confirmBooking()">Confirm Booking</button>
+  </div>
+
+  <div id="confirmation"></div>
+</section>
+
+<footer>
+  <p>Karl Borja & Neo Macaraig – 9Emerald</p>
+  <p>Source: Google | GoMotorcycle</p>
+</footer>
+
+<script>
+const stations=[ "North Avenue","Quezon Avenue","GMA Kamuning","Araneta Cubao",
+"Santolan-Annapolis","Ortigas","Shaw Boulevard","Boni",
+"Guadalupe","Buendia","Ayala","Magallanes","Taft Avenue"];
+
+const fareMatrix=
+{0:[0,13,13,16,16,20,20,20,24,24,24,28,28],
+1:[13,0,13,13,16,16,20,20,20,24,24,24,28],
+2:[13,13,0,13,13,16,16,20,20,20,24,24,24],
+3:[16,13,13,0,13,16,16,20,20,20,24,24,28],
+4:[16,16,13,13,0,13,16,20,20,20,24,24,28],
+5:[20,16,16,16,13,0,13,20,20,20,24,24,28],
+6:[20,20,16,16,16,13,0,16,20,20,20,24,28],
+7:[20,20,20,20,20,20,16,0,16,20,20,24,28],
+8:[24,20,20,20,20,20,20,16,0,16,20,24,28],
+9:[24,24,20,20,20,20,20,20,16,0,16,24,28],
+10:[24,24,24,24,20,24,20,20,20,16,0,20,28],
+11:[28,24,24,24,24,24,24,24,24,24,20,0,24],
+12:[28,28,24,28,28,28,28,28,28,28,28,24,0]};
+
+window.onload=()=>{
+stations.forEach((s,i)=>{
+fromStation.add(new Option(s,i));
+toStation.add(new Option(s,i));
+});
+setTimeout(()=>loader.style.display="none",2000);
+travelDate.min=new Date().toISOString().split("T")[0];
+setInterval(()=>clock.innerHTML=new Date().toLocaleString(),1000);
+};
+
+function computeFare(){
+if(fromStation.value===toStation.value){
+stationWarn.style.display="block";
+return;
+}
+stationWarn.style.display="none";
+let fare=fareMatrix[fromStation.value][toStation.value];
+if(passType.value==="discount") fare*=0.8;
+result.innerHTML=`<b>Fare:</b> ₱${fare.toFixed(2)}`;
+result.style.opacity=1;
+bookingSection.style.display="block";
+}
+
+function confirmBooking(){
+let valid=true;
+
+function validate(input,condition,warning){
+if(!condition){
+input.classList.add("error");
+warning.style.display="block";
+valid=false;
+}else{
+input.classList.remove("error");
+warning.style.display="none";
+}
+}
+
+validate(fullName,fullName.value.length>=3,nameWarn);
+validate(age,age.value>=13&&age.value<=120,ageWarn);
+validate(contact,/^09\d{9}$/.test(contact.value),contactWarn);
+validate(email,/^[^ ]+@[^ ]+\.[a-z]{2,}$/i.test(email.value),emailWarn);
+validate(travelDate,new Date(travelDate.value)>=new Date().setHours(0,0,0,0),dateWarn);
+validate(travelTime,travelTime.value!=="",timeWarn);
+
+if(!valid) return;
+
+let ref="MRT"+Math.floor(Math.random()*100000);
+
+confirmation.innerHTML=`
+<h3 style="color:var(--accent-main)">Booking Confirmed 🎉</h3>
+<p><b>Name:</b> ${fullName.value}</p>
+<p><b>Age:</b> ${age.value}</p>
+<p><b>Contact:</b> ${contact.value}</p>
+<p><b>Email:</b> ${email.value}</p>
+<p><b>Date:</b> ${travelDate.value}</p>
+<p><b>Time:</b> ${travelTime.value}</p>
+<p><b>Reference No:</b> ${ref}</p>
+`;
+confirmation.style.opacity=1;
+}
+</script>
+
+</body>
+</html>
